@@ -8,9 +8,12 @@
 <style>
   :root {
     --border-radius: 1rem;
-    --color-background: #111;
-    --color-text-subtle: #888;
-    --color-text: #eee;
+    --color-background: #242424;
+    --color-text-subtle: #ffffff;
+    --color-text: #ffffff;
+    --button-background: #2f2f2f;
+    --button-color: #363636;
+
     --font-family: -apple-system, Helvetica, sans-serif;
     --font-size: clamp(16px, 1.6vw, 18px);
     --font-weight-bold: 700;
@@ -21,10 +24,21 @@
 
   @media (prefers-color-scheme: light) {
     :root {
-      --color-background: #e8e8e8;
-      --color-text-subtle: #606060;
-      --color-text: #111;
+      --color-background: #fafafa;
+      --color-text-subtle: #333333;
+      --color-text: #333333;
+      --button-background: #f0f0f0;
+      --button-color: #dbdbdb;
+
     }
+  }
+
+  * {
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
 </style>
 
@@ -33,52 +47,45 @@
     commandPathDelimiter: '/',
     commandSearchDelimiter: ' ',
     defaultSearchTemplate: 'https://duckduckgo.com/?q={}',
-    openLinksInNewTab: true,
-    suggestionLimit: 4,
+    openLinksInNewTab: false,
+    suggestionLimit: 6,
   };
 
   const COMMANDS = new Map([
     ['a', { name: 'Chat', url: 'https://chat.openai.com' }],
-    ['b', { name: 'Dribbble', url: 'https://dribbble.com/shots/recent' }],
     ['c', { name: 'Calendar', url: 'https://calendar.google.com' }],
     ['d', { name: 'Drive', url: 'https://drive.google.com' }],
-    ['f', { name: 'Figma', url: 'https://www.figma.com' }],
-    ['g', { name: 'GitHub', url: 'https://github.com' }],
-    ['k', { name: 'Keep', url: 'https://keep.google.com' }],
-    ['m', { name: 'Mail', url: 'https://mail.proton.me/u/0/inbox' }],
-    ['n', { name: 'Notion', url: 'https://www.notion.so' }],
-    ['p', { name: 'Pomodoro', url: 'https://pomodoro.xvvvyz.xyz' }],
+    ['g',
+      {
+        name: 'GitHub',
+        searchTemplate: '/search?q={}',
+        url: 'https://github.com'
+      },
+    ],
+    ['m', { name: 'Mail', url: 'https://mail.google.com/mail/u/0/#inbox' }],
+    ['t', { name: 'Torrent', url: 'https://qbittorrent.c3r5b8.dev' }],
+    ['e', { name: 'Memos', url: 'https://memos.c3r5b8.dev' }],
+    ['n', { name: 'ntfy', url: 'https://ntfy.c3r5b8.dev' }],
+    ['j', { name: 'Jellyfin', url: 'https://jellyfin.c3r5b8.dev' }],
+    ['l', { name: 'Clasroom', url: 'https://classroom.google.com' }],
+    ['w', { name: 'router', url: 'https://192.168.1.1:8443' }],
     [
       'r',
       {
         name: 'Reddit',
         suggestions: [
-          'r/r/webdev',
-          'r/r/dataisbeautiful',
-          'r/r/fujix',
-          'r/r/leetcode',
+          'r/r/unixporn',
+          'r/r/wallpaper',
         ],
         url: 'https://reddit.com',
       },
     ],
-    ['s', { name: 'Supabase', url: 'https://supabase.com/dashboard/projects' }],
-    ['t', { name: 'Translate', url: 'https://www.deepl.com/translator' }],
-    ['v', { name: 'Vercel', url: 'https://vercel.com/dashboard' }],
     [
       'y',
       {
         name: 'YouTube',
         searchTemplate: '/results?search_query={}',
         url: 'https://youtube.com/feed/subscriptions',
-      },
-    ],
-    [
-      '0',
-      {
-        name: 'localhost',
-        searchTemplate: ':{}',
-        suggestions: ['0 54323', '0 54324'],
-        url: 'http://localhost:3000',
       },
     ],
   ]);
@@ -108,16 +115,19 @@
     }
 
     .command::after {
-      background: var(--color-text-subtle);
+      /* background: var(--color-text-subtle); */
       content: ' ';
       inset: 1px;
-      opacity: 0.05;
+      /* background: #f0f0f0; */
+      background: var(--button-background);
       position: absolute;
+      z-index: -1;
       transition: opacity var(--transition-speed);
     }
 
     .command:where(:focus, :hover)::after {
-      opacity: 0.1;
+      background: var(--button-color);
+      /* background: #dbdbdb; */
     }
 
     .key {
@@ -198,6 +208,7 @@
     button {
       -moz-appearance: none;
       -webkit-appearance: none;
+      appearance: none;
       background: transparent;
       border: 0;
       display: block;
@@ -206,16 +217,30 @@
 
     .dialog {
       align-items: center;
-      background: var(--color-background);
+      /* background: var(--color-background); */
+      background: transparent;
       border: none;
       display: none;
       flex-direction: column;
-      height: 100%;
+      height: 70%;
       justify-content: center;
-      left: 0;
+      /* left: 0; */
       padding: 0;
-      top: 0;
+      top: 15%;
+      width: 70%;
+      z-index: 1;
+    }
+
+    .dialog::before {
+      background: var(--color-background);
+      content: ' ';
+      position: absolute;
+      height: 100%;
+      padding: 0;
+      /* top: 25%; */
       width: 100%;
+      filter: blur(50px);
+      z-index: 1;
     }
 
     .dialog[open] {
@@ -224,6 +249,7 @@
 
     .form {
       width: 100%;
+      z-index: 1;
     }
 
     .input {
@@ -233,6 +259,7 @@
       padding: 0;
       text-align: center;
       width: 100%;
+      z-index: 1;
     }
 
     .suggestions {
@@ -558,6 +585,20 @@
   customElements.define('search-component', Search);
 </script>
 
+<!-- <template id="rain-template">
+  <style>
+    canvas {
+      left: 0;
+      position: absolute;
+      top: 0;
+      z-index: -1;
+    }
+  </style>
+  <canvas class="rain"></canvas>
+</template> -->
+
+
+
 <style>
   html {
     background-color: var(--color-background);
@@ -581,9 +622,164 @@
     position: relative;
     width: 100vw;
   }
+
+  canvas {
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    /* filter: blur(4px); */
+  }
 </style>
 
 <main>
+  <!-- <rain-component></rain-component> -->
+  <canvas></canvas>
   <commands-component></commands-component>
   <search-component></search-component>
 </main>
+
+<script>
+  const width = 150;
+  let widthPx = window.innerWidth / width;
+  let height = window.innerHeight / widthPx;
+  let coeficient = 0.4;
+  let gen = 0;
+  function resizeCanvas() {
+    const canvas = document.querySelector('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    widthPx = window.innerWidth / width;
+    height = window.innerHeight / widthPx;
+
+  }
+
+  // Call the resizeCanvas function on page load and window resize
+  window.onload = resizeCanvas;
+  window.onresize = resizeCanvas;
+
+
+
+  class board {
+    constructor(opt) {
+      this.width = opt.width;
+      this.height = opt.height;
+      this.cells = [];
+      for (let i = 0; i < opt.width; i++) {
+        let row = [];
+        for (let j = 0; j < opt.height; j++) {
+          row.push(Math.random() > coeficient);
+        }
+        this.cells.push(row);
+      }
+    }
+    neighbors(x, y) {
+      let count = 0;
+      for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+          if (i === 0 && j === 0) {
+            continue;
+          }
+
+          let nx = x + i;
+          let ny = y + j;
+
+          if (nx < 0) {
+            nx = this.width - 1;
+          } else if (nx >= this.width) {
+            nx = 0;
+          }
+
+          if (ny < 0) {
+            ny = this.height - 1;
+          } else if (ny >= this.height) {
+            ny = 0;
+          }
+
+          if (this.cells[nx][ny]) {
+            count++;
+          }
+        }
+      }
+      return count;
+    }
+
+    next(x, y) {
+      let count = this.neighbors(x, y);
+      let alive = this.cells[x][y];
+
+      if (alive && (count < 2 || count > 3)) {
+        return false;
+      } else if (!alive && count === 3) {
+        return true;
+      }
+      return alive;
+    }
+
+    update() {
+      let newCells = [];
+      for (let i = 0; i < this.width; i++) {
+        let row = [];
+        for (let j = 0; j < this.height; j++) {
+          row.push(this.next(i, j));
+        }
+        newCells.push(row);
+      }
+      this.cells = newCells;
+    }
+  }
+
+  let b = new board({
+    width: width,
+    height: height
+  });
+  b.update();
+  b.update();
+  b.update();
+  b.update();
+  b.update();
+  b.update();
+  b.update();
+  b.update();
+  const canvas = document.querySelector('canvas');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const ctx = canvas.getContext('2d');
+  let n = 0;
+  let draw = () => {
+    setTimeout(() => {
+      gen++;
+      old = b.cells;
+      b.update();
+      newCells = b.cells;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let frame = 0; frame < 4; frame++) {
+        for (let i = 0; i < width; i++) {
+          for (let j = 0; j < height; j++) {
+            if (frame == 1) {
+              if (old[i][j]) {
+                ctx.fillStyle = '#f3f3f3';
+                // drawRoundedRect(ctx, i * widthPx, j * widthPx, widthPx, widthPx, 3);
+                ctx.fillRect(i * widthPx, j * widthPx, widthPx - 1, widthPx - 1);
+
+              }
+            } else if (frame == 2) {
+              if (newCells[i][j]) {
+                ctx.fillStyle = '#dbdbdb';
+                // drawRoundedRect(ctx, i * widthPx, j * widthPx, widthPx, widthPx, 3);
+                ctx.fillRect(i * widthPx, j * widthPx, widthPx - 1, widthPx - 1);
+
+              }
+            }
+          }
+        }
+      }
+      n++;
+      draw();
+    }, 60);
+  }
+  draw();
+
+</script>
