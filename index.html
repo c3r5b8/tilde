@@ -46,7 +46,7 @@
   const CONFIG = {
     commandPathDelimiter: '/',
     commandSearchDelimiter: ' ',
-    defaultSearchTemplate: 'https://duckduckgo.com/?q={}',
+    defaultSearchTemplate: 'https://search.brave.com/search?q={}',
     openLinksInNewTab: false,
     suggestionLimit: 6,
   };
@@ -398,7 +398,7 @@
 
         const script = document.createElement('script');
         document.querySelector('head').appendChild(script);
-        script.src = `https://duckduckgo.com/ac/?callback=autocompleteCallback&q=${search}`;
+        script.src = `https://search.brave.com/api/suggest?q=${search}`;
         script.onload = script.remove;
       });
     }
