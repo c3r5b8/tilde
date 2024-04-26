@@ -46,13 +46,13 @@
   const CONFIG = {
     commandPathDelimiter: '/',
     commandSearchDelimiter: ' ',
-    defaultSearchTemplate: 'https://search.brave.com/search?q={}',
+    defaultSearchTemplate: 'https://duckduckgo.com/?q={}',
     openLinksInNewTab: false,
     suggestionLimit: 6,
   };
 
   const COMMANDS = new Map([
-    ['a', { name: 'Chat', url: 'https://chat.openai.com' }],
+    ['h', { name: 'Chat', url: 'https://chat.openai.com' }],
     ['c', { name: 'Calendar', url: 'https://calendar.google.com' }],
     ['d', { name: 'Drive', url: 'https://drive.google.com' }],
     ['g',
@@ -67,19 +67,19 @@
     ['e', { name: 'Memos', url: 'https://memos.c3r5b8.dev' }],
     ['n', { name: 'ntfy', url: 'https://ntfy.c3r5b8.dev' }],
     [
-      'x',
+      'a',
       {
-        name: 'NixPkgs',
-        url: 'https://search.nixos.org',
-        searchTemplate: '/packages?channel=unstable&query={}',
+        name: 'Arch Wiki',
+        url: 'https://wiki.archlinux.org',
+        searchTemplate: '/index.php?search={}',
       }
     ],
     [
-      'k',
+      'p',
       {
-        name: 'Nixos wiki',
-        url: 'https://nixos.wiki',
-        searchTemplate: '/index.php?search={}',
+        name: 'Arch Packages',
+        url: 'https://archlinux.org/packages',
+        searchTemplate: '/?q={}',
       }
     ],
     ['o', { name: 'Gemini', url: 'https://gemini.google.com' }],
@@ -396,7 +396,7 @@
 
         const script = document.createElement('script');
         document.querySelector('head').appendChild(script);
-        script.src = `https://search.brave.com/api/suggest?q=${search}`;
+        script.src = `https://duckduckgo.com/ac/?callback=autocompleteCallback&q=${search}`;
         script.onload = script.remove;
       });
     }
