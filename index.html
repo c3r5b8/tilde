@@ -775,14 +775,14 @@
           for (let j = 0; j < height; j++) {
             if (frame == 1) {
               if (old[i][j]) {
-                ctx.fillStyle = '#f3f3f3';
+                // ctx.fillStyle = '#a6e3a13';
                 // drawRoundedRect(ctx, i * widthPx, j * widthPx, widthPx, widthPx, 3);
                 ctx.fillRect(i * widthPx, j * widthPx, widthPx - 1, widthPx - 1);
 
               }
             } else if (frame == 2) {
               if (newCells[i][j]) {
-                ctx.fillStyle = '#dbdbdb';
+                ctx.fillStyle = '#a6e3a1';
                 // drawRoundedRect(ctx, i * widthPx, j * widthPx, widthPx, widthPx, 3);
                 ctx.fillRect(i * widthPx, j * widthPx, widthPx - 1, widthPx - 1);
 
