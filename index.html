@@ -8,6 +8,35 @@
 <style>
   :root {
     --border-radius: 1rem;
+    --color-background: #303030;
+    --color-text-subtle: #ffffff;
+    --color-text: #ffffff;
+    --color-alive: #62a0ea;
+    --button-background: #444444;
+    --button-color: #363636;
+
+    --font-family: -apple-system, Helvetica, sans-serif;
+    --font-size: clamp(16px, 1.6vw, 18px);
+    --font-weight-bold: 700;
+    --font-weight-normal: 400;
+    --space: 1rem;
+    --transition-speed: 200ms;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --color-background: #ffffff;
+      --color-text-subtle: #333333;
+      --color-alive: #1c71d8;
+      --color-text: #333333;
+      --button-background: #ebebeb;
+      --button-color: #dbdbdb;
+
+    }
+  }
+
+  /* :root {
+    --border-radius: 1rem;
     --color-background: #1e1e2e;
     --color-text-subtle: #cdd6f4;
     --color-text: #cdd6f4;
@@ -31,7 +60,7 @@
       --button-color: #dce0e8;
 
     }
-  }
+  } */
 
   * {
     user-select: none;
@@ -782,7 +811,7 @@
               }
             } else if (frame == 2) {
               if (newCells[i][j]) {
-                ctx.fillStyle = '#a6e3a1';
+                ctx.fillStyle = window.getComputedStyle(document.documentElement).getPropertyValue('--color-alive');;
                 // drawRoundedRect(ctx, i * widthPx, j * widthPx, widthPx, widthPx, 3);
                 ctx.fillRect(i * widthPx, j * widthPx, widthPx - 1, widthPx - 1);
 
